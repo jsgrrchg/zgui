@@ -2582,6 +2582,30 @@ fn late_field(lua: &Lua, node: &mut Node, name: &str, value: mlua::Value) -> mlu
     Ok(())
 }
 
+/// A key no style property names, of those few nodes set: whether plugins
+/// may target the node (`hook`, `private`). Looked for after the style
+/// keys, so none of those compares against them.
+#[cold]
+#[inline(never)]
+fn late_field(lua: &Lua, node: &mut Node, name: &str, value: mlua::Value) -> mlua::Result<()> {
+    match name {
+        "private" => node.private = lua.unpack(value)?,
+        "hook" => match value {
+            mlua::Value::String(name) => {
+                node.a11y.get_or_insert_default().hook = Some(name.to_str()?.as_ref().into())
+            }
+            mlua::Value::Boolean(false) => node.private = true,
+            other => {
+                return Err(mlua::Error::runtime(format!(
+                    "`hook` takes a name (a hook plugins target) or false (none may), not {}",
+                    other.type_name()
+                )));
+            }
+        },
+        _ => return Err(mlua::Error::runtime(format!("unknown property `{name}`"))),
+    }
+    Ok(())
+}
 /// Sets the handler `key` names, or gives `value` back if it names none.
 fn set_handler(
     events: &mut Option<Box<Events>>,
@@ -2859,17 +2883,6 @@ fn fill_from(
             },
             "focusable" => node.focusable = Some(lua.unpack(value)?),
             "window_drag" => node.window_drag = lua.unpack(value)?,
-            "private" => node.private = lua.unpack(value)?,
-            "hook" => match value {
-                mlua::Value::String(name) => node.a11y.get_or_insert_default().hook = Some(name.to_str()?.as_ref().into()),
-                mlua::Value::Boolean(false) => node.private = true,
-                other => {
-                    return Err(mlua::Error::runtime(format!(
-                        "`hook` takes a name (a hook plugins target) or false (none may), not {}",
-                        other.type_name()
-                    )));
-                }
-            },
             "selectable" => node.selectable = lua.unpack(value)?,
             "selection_color" | "selected_text_color" => {
                 let at = usize::from(key == "selected_text_color");
@@ -3267,7 +3280,7 @@ fn fill_from(
                     if LATE_FIELDS.contains(&name) {
                         return late_field(lua, node, name, value);
                     }
-                    return Err(mlua::Error::runtime(format!("unknown property `{name}`")));
+                    return late_field(lua, node, name, value);
                 };
                 if let Some(keys) = &keys {
                     // The key kept alive while its address names it.
