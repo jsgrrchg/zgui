@@ -1566,6 +1566,10 @@ export type Styles = {
 	overflow: Overflow?,
 	overflow_x: Overflow?,
 	overflow_y: Overflow?,
+	-- Painted and hit over its siblings with a lower `z`, under those with
+	-- a higher; 0, as written. Among its siblings only, unlike CSS's
+	-- `z-index`; focus and the accessibility tree keep document order.
+	z: number?,
 	hidden: boolean?,
 	invisible: boolean?,
 	-- Paint.
@@ -1740,6 +1744,7 @@ export type StyleProps = {
 	overflow: Reactive<Overflow>?,
 	overflow_x: Reactive<Overflow>?,
 	overflow_y: Reactive<Overflow>?,
+	z: Reactive<number>?,
 	hidden: Reactive<boolean>?,
 	invisible: Reactive<boolean>?,
 	-- Paint.
@@ -2119,6 +2124,7 @@ export type Props = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -2447,6 +2453,7 @@ export type Props_row_span_full = Reactive<boolean>?
 export type Props_overflow = Reactive<Overflow>?
 export type Props_overflow_x = Reactive<Overflow>?
 export type Props_overflow_y = Reactive<Overflow>?
+export type Props_z = Reactive<number>?
 export type Props_hidden = Reactive<boolean>?
 export type Props_invisible = Reactive<boolean>?
 export type Props_bg = Reactive<Color>?
@@ -2664,6 +2671,7 @@ export type ContainerProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -3004,6 +3012,7 @@ export type ScrollProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -3355,6 +3364,7 @@ export type TextProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -3694,6 +3704,7 @@ export type MarkdownViewProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -4086,6 +4097,7 @@ export type RichProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -4419,6 +4431,7 @@ export type ImageProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -4762,6 +4775,7 @@ export type SvgProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -5200,6 +5214,7 @@ export type Scene3DProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -5556,6 +5571,7 @@ export type CanvasProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -5921,6 +5937,7 @@ export type CheckboxProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -6264,6 +6281,7 @@ export type InputProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -6690,6 +6708,7 @@ export type ProgressProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -7024,6 +7043,7 @@ export type SliderProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -7373,6 +7393,7 @@ export type SegmentedProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -7718,6 +7739,7 @@ export type StepperProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -8064,6 +8086,7 @@ export type DisclosureProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -8407,6 +8430,7 @@ export type AccordionProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -8740,6 +8764,7 @@ export type SectionProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -9080,6 +9105,7 @@ export type SeparatorProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -9419,6 +9445,7 @@ export type TabsProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -9766,6 +9793,7 @@ export type TreeProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -10123,6 +10151,7 @@ export type DataGridProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -10476,6 +10505,7 @@ export type CalendarProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -10822,6 +10852,7 @@ export type DatePickerProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -11166,6 +11197,7 @@ export type TimeFieldProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -11509,6 +11541,7 @@ export type ComboboxProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -11860,6 +11893,7 @@ export type CommandPaletteProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -12199,6 +12233,7 @@ export type SelectProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -12545,6 +12580,7 @@ export type SplitProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -12899,6 +12935,7 @@ export type ListProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -13312,6 +13349,7 @@ export type LayerProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -13651,6 +13689,7 @@ export type ModalProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -14008,6 +14047,7 @@ export type PopoverProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -14375,6 +14415,7 @@ export type MenuItemProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -14713,6 +14754,7 @@ export type SubmenuProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -15058,6 +15100,7 @@ export type WebViewProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -15411,6 +15454,7 @@ export type TerminalProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -15745,6 +15789,7 @@ export type SlotProps = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -16125,6 +16170,7 @@ export type EachOptions = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
@@ -16474,6 +16520,7 @@ export type PresenceOptions = {
 	overflow: Props_overflow,
 	overflow_x: Props_overflow_x,
 	overflow_y: Props_overflow_y,
+	z: Props_z,
 	hidden: Props_hidden,
 	invisible: Props_invisible,
 	-- Paint.
