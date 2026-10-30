@@ -29,6 +29,7 @@ zgx is on crates.io from 0.1.0 (`zgx = "0.1"`); this lists what changed for apps
 
 - macOS: with zgx-desktop's `mimalloc` feature, the program's heap shows in vmmap, footprint and Activity Monitor as "Memory Tag 240", not "IOAccelerator". mimalloc's default tag, 100, is the one macOS names IOAccelerator, so an app's heap read as GPU memory: in one app 107 MB of "IOAccelerator" was its heap. `MIMALLOC_OS_TAG` still overrides it.
 - **An input bound to a state calls `on_commit`** (zgx-script): `ui.input { value = draft, on_commit = add }` heard nothing on Enter, as only a controlled input (`value = function`) told it. It now hears the text on Enter, and on leaving the input changed since it was focused, as a controlled input does.
+- **A scroll view, list or text area can keep a gesture at its edges** (zgx, zgx-script): `overscroll = "contain"` (`View::overscroll_contain`, CSS's `overscroll-behavior: contain`) on `ui.scroll`, `ui.list`, `ui.input` and `ui.textarea`. A wheel or trackpad gesture that starts over the view stays with it at its edges, momentum included, so the scroll views around it neither move nor stretch (a transcript inside a page). `"auto"`, the default, hands what it can't scroll on as before ([scrolling](docs/reference/scrolling.md)).
 
 ## 0.1.6 (2026-10-29)
 
