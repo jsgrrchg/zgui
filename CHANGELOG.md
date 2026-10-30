@@ -34,6 +34,7 @@ zgx is on crates.io from 0.1.0 (`zgx = "0.1"`); this lists what changed for apps
 
 ### Fixed
 
+- **`zgx check` reports unknown members of `ui`** (zgx-script): `ui.window`'s type was a function intersected with a table, which Luau reads as `never`, and that quieted every lookup on `ui`: a misspelled `ui.nope` passed strict mode and failed as `attempt to call a nil value` when it ran.
 - **A list being shrunk no longer flips its height for ever** (zgx): a size within a 1024th of a point of the last one told is rounding, not movement, and isn't told. Sums at a column's scale could land on neighbouring floats, a reader of the size dirtied layout, and it landed on the other: layout never settled. It took a list in a tight column (a zoomed sidebar) with a fractional neighbour (a fold animating).
 - **A reload frees the script it replaces** (zgx-script): an `anime` animation, timeline, draggable or scroll link held a strong handle to the script's own Luau state from inside it, so the state never closed and each hot reload leaked all of it. On a gallery with 15 MB of script heap, 100 reloads took the heap from 54 MB to 2.7 GB; now they stay between 60 and 95 MB, every old state closed.
 - **A panic no longer ends hot reload** (zgx, zgx-script): a panic while reloading shows as a script error does and the next save reloads, where the watching task went on failing with `` `async fn` resumed after panicking `` until the app was relaunched. A task that panics in `LocalExecutor::tick` goes, and the tasks after it stay ready.
